@@ -1,0 +1,18 @@
+﻿  GameSystem.cpp
+  Level.cpp
+C:\Users\Gevork\source\repos\ASCII RogueLike V2\ASCII RogueLike V2\Level.cpp(257,28): warning C4390: ';': empty controlled statement found; is this the intent?
+C:\Users\Gevork\source\repos\ASCII RogueLike V2\ASCII RogueLike V2\Level.cpp(265,28): warning C4390: ';': empty controlled statement found; is this the intent?
+C:\Users\Gevork\source\repos\ASCII RogueLike V2\ASCII RogueLike V2\Level.cpp(276,28): warning C4390: ';': empty controlled statement found; is this the intent?
+C:\Users\Gevork\source\repos\ASCII RogueLike V2\ASCII RogueLike V2\Level.cpp(284,28): warning C4390: ';': empty controlled statement found; is this the intent?
+C:\Users\Gevork\source\repos\ASCII RogueLike V2\ASCII RogueLike V2\Level.cpp(293,24): warning C4390: ';': empty controlled statement found; is this the intent?
+C:\Users\Gevork\source\repos\ASCII RogueLike V2\ASCII RogueLike V2\Level.cpp(298,23): warning C4390: ';': empty controlled statement found; is this the intent?
+C:\Users\Gevork\source\repos\ASCII RogueLike V2\ASCII RogueLike V2\Level.cpp(312,29): warning C4390: ';': empty controlled statement found; is this the intent?
+C:\Users\Gevork\source\repos\ASCII RogueLike V2\ASCII RogueLike V2\Level.cpp(320,29): warning C4390: ';': empty controlled statement found; is this the intent?
+C:\Users\Gevork\source\repos\ASCII RogueLike V2\ASCII RogueLike V2\Level.cpp(331,29): warning C4390: ';': empty controlled statement found; is this the intent?
+C:\Users\Gevork\source\repos\ASCII RogueLike V2\ASCII RogueLike V2\Level.cpp(339,29): warning C4390: ';': empty controlled statement found; is this the intent?
+C:\Users\Gevork\source\repos\ASCII RogueLike V2\ASCII RogueLike V2\Level.cpp(500,16): warning C4018: '>=': signed/unsigned mismatch
+  main.cpp
+  Generating Code...
+C:\Users\Gevork\source\repos\ASCII RogueLike V2\ASCII RogueLike V2\Level.cpp(495): warning C4715: 'Level::addShop': not all control paths return a value
+C:\Users\Gevork\source\repos\ASCII RogueLike V2\ASCII RogueLike V2\Level.h(203): warning C4715: 'Level::moveRandom<Mob>': not all control paths return a value
+  ASCII RogueLike V2.vcxproj -> C:\Users\Gevork\source\repos\ASCII RogueLike V2\Debug\ASCII RogueLike V2.exe
