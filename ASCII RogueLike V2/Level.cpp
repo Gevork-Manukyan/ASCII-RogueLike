@@ -505,6 +505,92 @@ bool Level::removeMob(int mobIndex)
 	return true;
 }
 
+//process the player moves and checks for attacks
+void Level::processMove(Player& player, int targetX, int targetY)
+{
+	char tile = getTile(targetX, targetY);
+	int x, y = 0;
+
+	switch (tile)
+	{
+	case '.':
+	case '#':
+	case '|':
+	case '_':
+	case 'X':
+		break;
+	case 's':
+	case 'B':
+	case 'F':
+	
+		//check if enter shop
+		for (unsigned int i = 0; i < _shopList.size(); i++)
+		{
+			_shopList[i].getLocation(x, y);
+			if (x == targetX && y == targetY)
+			{
+				_shopList[i].enterShop(_player);
+				return;
+			}
+		}
+		break;
+	
+	case 'C':
+
+		//check if opening chest
+		for (unsigned int i = 0; i < _chestList.size(); i++)
+		{
+			_chestList[i].getLocation(x, y);
+
+			if (x == targetX && y == targetY && _chestList[i].getStatus())
+				_chestList[i].openChest(player);
+		}
+		break;
+		
+	default:		//player attacking mob
+
+		int mobNumber;
+
+		//find correct mob
+		unsigned int i = 0;
+		for (; i < _mobList.size(); i++)
+		{
+			_mobList[i].getLocation(x, y);
+			if ((x == targetX) && (y == targetY))	//find mob in list
+			{
+				mobNumber = i;
+				break;
+			}
+		}
+
+		if (i <= _mobList.size())					//check if mob is found
+		{
+			battle(_player, _mobList[mobNumber]);	//do battle
+			if (getTile(x, y) == 'X')				//if mob dies, remove from list
+				removeMob(mobNumber);
+		}
+		break;
+	}
+}
+
+//process the mob moves and checks for attacks
+void Level::processMove(Mob& mob, int targetX, int targetY)
+{
+	char tile = getTile(targetX, targetY);
+
+	switch (tile)
+	{
+	case '@':		//mob attacking character
+		battle(mob, _player);
+		break;
+
+	default:		
+		break;
+	}//switch end
+}
+
+
+
 //returns true if player can move there
 bool Level::checkMove(int x, int y)
 {

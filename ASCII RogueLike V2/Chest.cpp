@@ -31,3 +31,9 @@ void Chest::addItem(Item& item)
 	_item.copyItem(&item);
 }
 
+//open chest, add item to player inventory, mark chest as openned
+void Chest::openChest(Player& player) {
+	std::cout << "You obtained a: " << _item.getName();
+	player.addItem(&_item);
+	_status = false;
+}

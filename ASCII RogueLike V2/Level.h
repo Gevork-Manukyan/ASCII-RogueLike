@@ -47,6 +47,8 @@ private:
 	bool addChest(char symbol, int x, int y);
 	bool addShop(char symbol, int x, int y);
 	bool removeMob(int listIndex);
+	void processMove(Player& player, int targetX, int targetY);
+	void processMove(Mob& mob, int targetX, int targetY);
 	bool checkMove(int x, int y);
 
 	//Templates
@@ -54,7 +56,6 @@ private:
 	template <class T> bool moveDown(T& character);
 	template <class T> bool moveRight(T& character);
 	template <class T> bool moveLeft(T& character);
-	template <class T> void processMove(T& character, int targetX, int targetY);
 	template<class T, class U> void battle(T& attacking, U& defending);
 
 	//Getters
@@ -285,83 +286,6 @@ template <class T> bool Level::moveLeft(T& character)
 	return false;
 }
 
-//process the characters move and checks for attacks
-template <class T> void Level::processMove(T& character, int targetX, int targetY)
-{
-	char tile = getTile(targetX, targetY);
-
-	switch (tile)
-	{
-	case '.':
-	case '#':
-	case '|':
-	case '_':
-	case 'X':
-		break;
-	case '@':		//mob attacking character
-		battle(character, _player);
-		break;
-	case 's':
-	case 'B':
-	case 'F':
-		if (character.getSymbol() == '@')
-		{
-			int x, y;
-
-			//check if enter shop
-			for (unsigned int i = 0; i < _shopList.size(); i++)
-			{
-				_shopList[i].getLocation(x, y);
-				if (x == targetX && y == targetY)
-				{
-					_shopList[i].enterShop(_player);
-					return;
-				}
-			}
-		}
-	case 'C':
-		if (character.getSymbol() == '@')
-		{
-			int x = 0;
-			int y = 0;
-
-			//check if opening chest
-			for (unsigned int i = 0; i < _chestList.size(); i++)
-			{
-				_chestList[i].getLocation(x, y);
-
-				if (x == targetX && y == targetY && _chestList[i].getStatus())
-					_chestList[i].openChest(character);
-			}
-		}
-	default:		//character attacking mob
-		if (character.getSymbol() == '@')
-		{
-			int x, y;
-			int mobNumber;
-
-			//find correct mob
-			unsigned int i = 0;
-			for (; i < _mobList.size(); i++)
-			{
-				_mobList[i].getLocation(x, y);
-				if ((x == targetX) && (y == targetY))	//find mob in list
-				{
-					mobNumber = i;
-					break;
-				}//if end
-			}//for end
-
-			if (i <= _mobList.size())					//check if mob is found
-			{
-				battle(_player, _mobList[mobNumber]);	//do battle
-				if (getTile(x, y) == 'X')				//if mob dies, remove from list
-					removeMob(mobNumber);
-			}
-		}//if end
-		break;
-	}//switch end
-}
 
 //do battle between two entities
 template<class T, class U> void Level::battle(T& attacking, U& defending)

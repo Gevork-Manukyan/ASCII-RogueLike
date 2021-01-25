@@ -16,7 +16,7 @@ public:
 
 	void addRandomItem(Item& item);
 	void addItem(Item& item);
-	template <class T> void openChest(T& player);
+	void openChest(Player& player);
 
 private:
 	int _x;
@@ -26,9 +26,3 @@ private:
 	int _itemAmount;
 };
 
-//open chest, add item to player inventory, mark chest as openned
-template <class T> void Chest::openChest(T& player) {
-	std::cout << "You obtained a: " << _item.getName();
-	player.addItem(&_item);
-	_status = false;
-}
