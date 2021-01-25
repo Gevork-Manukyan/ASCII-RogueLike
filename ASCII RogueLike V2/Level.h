@@ -387,7 +387,11 @@ template<class T, class U> void Level::battle(T& attacking, U& defending)
 		setTile(defenderX, defenderY, 'X');
 		std::cout << defending.getName() << " has died!\n";
 		_getch();
-	}//if end
+	}
+	else {
+		std::cout << defending.getName() << " has " << defending.getHealth() << " health left.\n";
+	}
+
 
 	//Defenders turn
 
@@ -402,5 +406,9 @@ template<class T, class U> void Level::battle(T& attacking, U& defending)
 		setTile(attackerX, attackerY, 'X');
 		std::cout << attacking.getName() << " has died!\n";
 		_getch();
-	}//if end
+	}
+	else {
+		std::cout << attacking.getName() << " has " << attacking.getHealth() << " health left.\n";
+		_getch();
+	}
 }
