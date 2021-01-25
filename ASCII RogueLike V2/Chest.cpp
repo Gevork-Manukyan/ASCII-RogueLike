@@ -1,5 +1,7 @@
 #include "Chest.h"
+#include <iostream>
 
+//A chest with a status true has not been openned
 
 Chest::Chest(int x, int y)
 {
@@ -20,11 +22,12 @@ Chest::Chest(int x, int y, Item item)
 //randomly create and add item
 void Chest::addRandomItem(Item& item)
 {
-	//item.random();
+	item.randomItem();
 }
 
 //add specific item
 void Chest::addItem(Item& item)
 {
-	//_item = item;
+	_item.copyItem(&item);
 }
+

@@ -316,9 +316,9 @@ template <class T> void Level::processMove(T& character, int targetX, int target
 				{
 					_shopList[i].enterShop(_player);
 					return;
-				}//if end
-			}//for end
-		}//if end
+				}
+			}
+		}
 	case 'C':
 		if (character.getSymbol() == '@')
 		{
@@ -328,13 +328,12 @@ template <class T> void Level::processMove(T& character, int targetX, int target
 			//check if opening chest
 			for (unsigned int i = 0; i < _chestList.size(); i++)
 			{
-				//_chestList[i].getLocation(x, y);
-				if (x == targetX && y == targetY)
-				{
-					//_chestList[i].openChest();
-				}//if end
-			}//for end
-		}//if end
+				_chestList[i].getLocation(x, y);
+
+				if (x == targetX && y == targetY && _chestList[i].getStatus())
+					_chestList[i].openChest(character);
+			}
+		}
 	default:		//character attacking mob
 		if (character.getSymbol() == '@')
 		{

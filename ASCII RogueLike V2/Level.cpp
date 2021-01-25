@@ -449,7 +449,7 @@ bool Level::addChest(char symbol, int x, int y)
 	switch (symbol)
 	{
 	case 'C':
-		_chestList.push_back(Chest(x, y, Item()));
+		_chestList.push_back(Chest(x, y));
 		return true;
 		break;
 	default:
