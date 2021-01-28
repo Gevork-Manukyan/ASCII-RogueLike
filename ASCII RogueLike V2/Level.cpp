@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <random>
 #include <ctime>
+#include <string>
 
 #include "Level.h"
 #include "Item.h"
@@ -207,6 +208,39 @@ bool Level::checkPlayer()
 	if (_player.getHealth() <= 0)
 		return true;
 	return false;
+}
+
+//Opens player inventory to the screen
+void Level::inventory() {
+	printInventory();
+}
+
+//Prints player inventory
+void Level::printInventory() {
+	
+	//%[flags][width][.precision][length]specifier
+	system("CLS");
+	std::cout << std::string(10, '\n');
+	printf("\t\t%*s", 30, " "); printf("%s Lv. %i\n", _player.getName().c_str(), _player.getLevel());
+	printf("\t\t%*s", 30, " "); printf("|%s|\n", std::string(52, '-').c_str());
+	printf("\t\t%*s", 30, " "); printf("| GP: %-6i    health: %3i/%-6i   EXP: %3i/%-6i |\n", _player.getMoney(), _player.getHealth(), _player.getMaxHealth(), _player.getExperience(), _player.getExpCap());
+	printf("\t\t%*s", 30, " "); printf("|%s|\n", std::string(52, ' ').c_str());
+	printf("\t\t%*s", 30, " "); printf("|%s|\n", std::string(52, ' ').c_str());
+	printf("\t\t%*s", 30, " "); printf("| Weapon:  %-10s  Shield:  %-21s|\n", _player.getItem(0)->getName().c_str(), _player.getItem(0)->getName().c_str());
+	printf("\t\t%*s", 30, " "); printf("|%s|\n", std::string(52, ' ').c_str());
+	printf("\t\t%*s", 30, " "); printf("|     Helmet:  %-38s|\n", _player.getItem(0)->getName().c_str());
+	printf("\t\t%*s", 30, " "); printf("| Chestpiece:  %-38s|\n", _player.getItem(0)->getName().c_str());
+	printf("\t\t%*s", 30, " "); printf("|   Gauntlet:  %-38s|\n", _player.getItem(0)->getName().c_str());
+	printf("\t\t%*s", 30, " "); printf("|      Boots:  %-38s|\n", _player.getItem(0)->getName().c_str());
+	printf("\t\t%*s", 30, " "); printf("|%s|\n", std::string(52, ' ').c_str());
+	printf("\t\t%*s", 30, " "); printf("|  Attack:   %-4i         Defense:   %-16i|\n", _player.getAttack(), _player.getDefense());
+	printf("\t\t%*s", 30, " "); printf("|%s|\n", std::string(52, ' ').c_str());
+	printf("\t\t%*s", 30, " "); printf("|%s|\n", std::string(52, '-').c_str());
+	printf("\t\t%*s", 30, " "); printf("|%s|\n", std::string(52, ' ').c_str());
+	_player.printInventoryList(0);
+	printf("\t\t%*s", 30, " "); printf("|%s|\n", std::string(52, ' ').c_str());
+	printf("\t\t%*s", 30, " "); printf("|%s|\n", std::string(52, '-').c_str());
+	_getch();
 }
 
 //moves player
@@ -459,9 +493,9 @@ bool Level::addChest(char symbol, int x, int y)
 }
 
 //returns true if shop is added to _shopList
-bool Level::addShop(char symbol, int x, int y)
+bool Level::addShop(char& symbol, int x, int y)
 {
-	if (symbol == 's')	//Random shop
+	if (symbol == '&')	//Random shop
 	{
 		static std::default_random_engine randomEngine((unsigned int)time(NULL));
 		std::uniform_int_distribution<int> randomShop(1, 2);
@@ -485,7 +519,7 @@ bool Level::addShop(char symbol, int x, int y)
 		_shopList.push_back(Shop("Smith's BlackSmith", 'B', x, y, 500));
 		return true;
 		break;
-	case 'F':
+	case 'F':	//Food Shop
 		_shopList.push_back(Shop("Frank's Fruit Shop", 'F', x, y, 250));
 		break;
 	default:
@@ -519,7 +553,7 @@ void Level::processMove(Player& player, int targetX, int targetY)
 	case '_':
 	case 'X':
 		break;
-	case 's':
+	case '&':
 	case 'B':
 	case 'F':
 	

@@ -29,22 +29,42 @@ Item* Player::getItem(int index)
 }
 
 //Prints inventory
-void Player::printInventory()
+void Player::printInventoryList(int version)
 {
 	std::list<Item*>::iterator lit;
 	int i = 1;
-	for (lit = _inventoryList.begin(); lit != _inventoryList.end(); lit++)
-	{
-		if ((*lit) == _heldItem)	//Write (E) next to equipped item
+
+	if (version == 0) {
+
+		std::string listItem;
+		int spaces;
+		for (lit = _inventoryList.begin(); lit != _inventoryList.end(); lit++)
 		{
-			std::cout << "(" << i << ") " << "[" << (*lit)->getValue() << " GP] " << (*lit)->getName() << " x" << (*lit)->getCount() << " (E)\n";
+
+			printf("\t\t%*s", 30, " ");
+			listItem = "   " + std::to_string(i) + ". [" + std::to_string((*lit)->getValue()) + " GP] " + (*lit)->getName() + " x" + std::to_string((*lit)->getCount());
+			spaces = 52 - listItem.length();
+			printf("|%s%s|\n", listItem.c_str(), std::string(spaces, ' ').c_str());
 			i++;
-			continue;
+
 		}
-		std::cout << "(" << i << ") " << "[" << (*lit)->getValue() << " GP] " << (*lit)->getName() << " x" << (*lit)->getCount() << "\n";
-		i++;
-	}//for end
+	}
+	else {
+
+		for (lit = _inventoryList.begin(); lit != _inventoryList.end(); lit++)
+		{
+			if ((*lit) == _heldItem)	//Write (E) next to equipped item
+			{
+				std::cout << "(" << i << ") " << "[" << (*lit)->getValue() << " GP] " << (*lit)->getName() << " x" << (*lit)->getCount() << " (E)\n";
+				i++;
+				continue;
+			}
+			std::cout << "(" << i << ") " << "[" << (*lit)->getValue() << " GP] " << (*lit)->getName() << " x" << (*lit)->getCount() << "\n";
+			i++;
+		}
+	}
 }
+
 
 bool Player::canAffordItem(Item* item)
 {

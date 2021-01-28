@@ -64,6 +64,11 @@ void GameSystem::playGame()
 				continue;
 			}
 
+			//Inventory Button
+			if (input == 'e') {
+				_level.inventory();
+			}
+
 			_level.movePlayer(input);
 			_level.moveMobs();
 
@@ -232,6 +237,7 @@ void GameSystem::printIntro()
 	/*cin.ignore(10000, '\n');
 	cin.clear();*/
 	_playerName = input;
+	setPlayerName();
 
 	printf("\n%*s", 59, ""); printf("%*s%s", 28, "", "Good Luck "); cout << _playerName << "!";
 	_getch();

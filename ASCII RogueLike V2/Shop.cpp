@@ -136,7 +136,7 @@ void Shop::playerSell(Player& player)
 		std::cout << "\n\n" << player.getName() << "'s GP: " << player.getMoney();
 		std::cout << "\n\nWhat would you like to sell\n";
 		std::cout << "(0) Exit\n";
-		player.printInventory();
+		player.printInventoryList();
 		std::cout << "\n\n";
 		std::cout << getName() << "'s GP: " << getMoney() << "\n\n";
 

@@ -15,8 +15,12 @@ public:
 	std::string getName() { return _name; }
 	int getMoney() { return _money; }
 	int getHealth() { return _health; }
+	int getMaxHealth() { return _maxHealth; }
 	int getAttack() { return _attack; }
 	int getDefense() { return _defense; }
+	int getExperience() { return _experience; }
+	int getExpCap() { return _expCap; }
+	int getLevel() { return _level; }
 	int getX() { return _x; }
 	int getY() { return _y; }
 	void getLocation(int& x, int& y) { x = _x; y = _y; }
@@ -28,7 +32,7 @@ public:
 	void setName(std::string name) { _name = name; }
 
 	//Inventory
-	void printInventory();
+	void printInventoryList(int version = -1);
 	bool canAffordItem(Item* item);
 	Item* addItem(Item* newItem);
 	Item* addItemCopy(Item* item, int count = -1);
@@ -48,6 +52,8 @@ private:
 	int _money = 50;
 	//Hit points
 	int _health = 10;
+	//Max Hit points
+	int _maxHealth = 10;
 	//Damage output
 	int _attack = 5;
 	//Damage block
@@ -66,5 +72,6 @@ private:
 	std::list<Item*> _inventoryList;
 	//Equiped Item
 	Item* _heldItem;
+
 };
 

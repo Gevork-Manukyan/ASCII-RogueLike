@@ -28,6 +28,8 @@ public:
 	void print();
 	bool checkMobList();
 	bool checkPlayer();
+	void inventory();
+	void printInventory();
 		//Movement
 		void movePlayer(char input);
 		void moveMobs();
@@ -45,7 +47,7 @@ private:
 	bool extractCharacters(std::ifstream& inFile);
 	bool addMob(char symbol, int x, int y);
 	bool addChest(char symbol, int x, int y);
-	bool addShop(char symbol, int x, int y);
+	bool addShop(char& symbol, int x, int y);
 	bool removeMob(int listIndex);
 	void processMove(Player& player, int targetX, int targetY);
 	void processMove(Mob& mob, int targetX, int targetY);
