@@ -276,46 +276,58 @@ char Level::moveToPlayer(Mob& mob)
 	int xMob, yMob;
 	mob.getLocation(xMob, yMob);
 
-	int x = (xPlayer - xMob);
-	int y = (yPlayer - yMob);
-	double slope = ((double)y / x);
+	int horizontalDistance = (xPlayer - xMob);
+	int verticalDistance = (yPlayer - yMob);
+	double slope = ((double)verticalDistance / horizontalDistance);
 
-	if (x > 0)		//the player is to the right
+	if (horizontalDistance > 0)		//the player is to the right
 	{
-		if (y > 0)		//the player is below 
+		if (verticalDistance  > 0)		//the player is below 
 		{
-			if (slope < 1)	//x is larger, so closer horizontally
+			if (slope < 1)	//horizontalDistance is larger, so closer horizontally
 			{
-				if (moveRight(mob));
-				else if (moveDown(mob));
-				else if (moveLeft(mob));
+				if (checkMove(xMob + 1, yMob))
+					move(mob, 'd');
+				else if (checkMove(xMob, yMob + 1))
+					move(mob, 's');
+				else if (checkMove(xMob - 1, yMob))
+					move(mob, 'a');
 
 				return true;
 			}
 			else			//y is larger, so closer vertically
 			{
-				if (moveDown(mob));
-				else if (moveRight(mob));
-				else if (moveLeft(mob));
+				if (checkMove(xMob, yMob + 1))
+					move(mob, 's');
+				else if (checkMove(xMob + 1, yMob))
+					move(mob, 'd');
+				else if (checkMove(xMob - 1, yMob))
+					move(mob, 'a');
 
 				return true;
 			}
 		}
-		else if (y < 0)	//the player is above
+		else if (verticalDistance  < 0)	//the player is above
 		{
-			if (slope < 1)	//x is larger, so closer horizontally
+			if (slope < 1)	//horizontalDistance is larger, so closer horizontally
 			{
-				if (moveRight(mob));
-				else if (moveUp(mob));
-				else if (moveLeft(mob));
+				if (checkMove(xMob + 1, yMob))
+					move(mob, 'd');
+				else if (checkMove(xMob, yMob - 1))
+					move(mob, 'w');
+				else if (checkMove(xMob - 1, yMob))
+					move(mob, 'a');
 
 				return true;
 			}
 			else			//y is larger, so closer vertically
 			{
-				if (moveUp(mob));
-				else if (moveRight(mob));
-				else if (moveLeft(mob));
+				if (checkMove(xMob, yMob - 1))
+					move(mob, 'w');
+				else if (checkMove(xMob + 1, yMob))
+					move(mob, 'd');
+				else if (checkMove(xMob - 1, yMob))
+					move(mob, 'a');
 
 				return true;
 			}
@@ -324,53 +336,65 @@ char Level::moveToPlayer(Mob& mob)
 		{
 			if (slope == -0)	 //the player is directly to the right
 			{
-				if (moveRight(mob));
+				move(mob, 'd');
 				return true;
 			}
 			else if (slope == 0) //the player is directly to the left
 			{
-				if (moveLeft(mob));
+				move(mob, 'a');
 				return true;
 			}
 		}
 
 	}
-	else if (x < 0)	//the player is to the left
+	else if (horizontalDistance < 0)	//the player is to the left
 	{
-		if (y > 0)		//the player is below 
+		if (verticalDistance  > 0)		//the player is below 
 		{
-			if (slope < 1)	//x is larger, so closer horizontally
+			if (slope < 1)	//horizontalDistance is larger, so closer horizontally
 			{
-				if (moveLeft(mob));
-				else if (moveDown(mob));
-				else if (moveRight(mob));
+				if (checkMove(xMob - 1, yMob))
+					move(mob, 'a');
+				else if (checkMove(xMob, yMob + 1))
+					move(mob, 's');
+				else if (checkMove(xMob + 1, yMob))
+					move(mob, 'd');
 
 				return true;
 			}
 			else			//y is larger, so closer vertically
 			{
-				if (moveDown(mob));
-				else if (moveLeft(mob));
-				else if (moveRight(mob));
+				if (checkMove(xMob, yMob + 1))
+					move(mob, 's');
+				else if (checkMove(xMob - 1, yMob))
+					move(mob, 'a');
+				else if (checkMove(xMob + 1, yMob))
+					move(mob, 'd');
 
 				return true;
 			}
 		}
-		else if (y < 0)	//the player is above
+		else if (verticalDistance  < 0)	//the player is above
 		{
-			if (slope < 1)	//x is larger, so closer horizontally
+			if (slope < 1)	//horizontalDistance is larger, so closer horizontally
 			{
-				if (moveLeft(mob));
-				else if (moveUp(mob));
-				else if (moveRight(mob));
+				if (checkMove(xMob - 1, yMob))
+					move(mob, 'a');
+				else if (checkMove(xMob, yMob - 1))
+					move(mob, 'w');
+				else if (checkMove(xMob + 1, yMob))
+					move(mob, 'd');
 
 				return true;
 			}
 			else			//y is larger, so closer vertically
 			{
-				if (moveUp(mob));
-				else if (moveLeft(mob));
-				else if (moveRight(mob));
+				if (checkMove(xMob, yMob - 1))
+					move(mob, 'w');
+				else if (checkMove(xMob - 1, yMob))
+					move(mob, 'a');
+				else if (checkMove(xMob + 1, yMob))
+					move(mob, 'd');
 
 				return true;
 			}
@@ -379,12 +403,14 @@ char Level::moveToPlayer(Mob& mob)
 		{
 			if (slope == -0)	 //the player is directly to the left
 			{
-				moveLeft(mob);
+				if (checkMove(xMob - 1, yMob))
+					move(mob, 'a');
 				return true;
 			}
 			else if (slope == 0) //the player is directly to the right
 			{
-				moveRight(mob);
+				if (checkMove(xMob + 1, yMob))
+					move(mob, 'd');
 				return true;
 			}
 		}
@@ -393,12 +419,12 @@ char Level::moveToPlayer(Mob& mob)
 	{
 		if (slope == -INFINITY)			//the player is directly above
 		{
-			moveUp(mob);
+			move(mob, 'w');
 			return true;
 		}
 		else if (slope == INFINITY)		//the player is directly below
 		{
-			moveDown(mob);
+			move(mob, 's');
 			return true;
 		}
 	}

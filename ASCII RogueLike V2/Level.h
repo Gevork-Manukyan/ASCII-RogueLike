@@ -115,6 +115,8 @@ template<class T> void Level::setRandomLocation(T& character)
 template<class T> void Level::move(T& character, char input)
 {
 	int x, y;
+	input = toupper(input);
+
 	//check key pressed
 	switch (input)
 	{
