@@ -20,13 +20,14 @@ void Level::initLevelData()
 {
 	std::ifstream inFile;
 
+	//Check for valid file
 	inFile.open(_levelFile);
 	if (inFile.fail())
 	{
 		perror(_levelFile.c_str());
 		system("PAUSE");
 		exit(1);
-	}//if end
+	}
 
 	std::string line;
 	char letter;
@@ -455,6 +456,15 @@ bool Level::checkRadius(char symbol, int radius, int x, int y)
 	return false;
 }
 
+//clears all current level data
+void Level::clear() {
+	_mobList.clear();
+	_chestList.clear();
+	_shopList.clear();
+	_levelData.clear();
+	_player = Player();
+}
+
 /*PRIVATE*/
 
 //return true if atleast one character was read
@@ -493,13 +503,12 @@ bool Level::addMob(char symbol, int x, int y)
 {
 	switch (symbol)
 	{
+	case 'O':
 	case 'S':
 		_mobList.push_back(Mob(symbol, x, y));
 		return true;
-		break;
 	default:
 		return false;
-		break;
 	}//switch end
 }
 

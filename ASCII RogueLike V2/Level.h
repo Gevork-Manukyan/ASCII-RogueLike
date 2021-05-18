@@ -37,6 +37,8 @@ public:
 		//Processing
 		bool checkRadius(char symbol, int radius, int x, int y);
 
+	void clear();
+
 	//Templates
 	template<class T> void move(T& character, char input);
 	template<class T> char moveRandom(T& character);

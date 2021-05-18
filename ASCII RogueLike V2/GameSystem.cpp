@@ -16,6 +16,8 @@ void GameSystem::playGame()
 {
 	while (true)
 	{
+		loadLevel("level1.txt");
+
 		//Title and Menu
 		printTitle();
 		printPressEnter();
@@ -72,12 +74,16 @@ void GameSystem::playGame()
 			_level.movePlayer(input);
 			_level.moveMobs();
 
-			if (_level.checkMobList())		//check if all mobs defeated
+			if (_level.checkMobList()) {		//check if all mobs defeated
 				levelComplete();
+				gameReset();
+				break;
+			}
 
-			if (_level.checkPlayer())		//check if player is dead
+			if (_level.checkPlayer()) {		//check if player is dead
 				gameOver();
-
+				break;
+			}
 
 			system("CLS");
 		}//while end
@@ -268,5 +274,30 @@ void GameSystem::levelComplete()
 //game over message
 void GameSystem::gameOver()
 {
+	system("CLS");
+	std::cout << string(7, '\n');
+	printf("\t\t\t%*s", 20, " "); printf("----------------------------------------------------\n");
+	printf("\t\t\t%*s", 20, " "); printf("|  ######        #         ##         ##   ######  |\n");
+	printf("\t\t\t%*s", 20, " "); printf("| #             # #        # #       # #   #       |\n");
+	printf("\t\t\t%*s", 20, " "); printf("| #            #   #       #  #     #  #   #       |\n");
+	printf("\t\t\t%*s", 20, " "); printf("| #   ###     #######      #   #   #   #   ###     |\n");
+	printf("\t\t\t%*s", 20, " "); printf("| #     #    #       #     #    # #    #   #       |\n");
+	printf("\t\t\t%*s", 20, " "); printf("|  ######   #         #    #     #     #   ######  |\n");
+	printf("\t\t\t%*s", 20, " "); printf("|                                                  |\n");
+	printf("\t\t\t%*s", 20, " "); printf("|                                                  |\n");
+	printf("\t\t\t%*s", 20, " "); printf("|     #####    #         #   #######   ######      |\n");
+	printf("\t\t\t%*s", 20, " "); printf("|    #     #    #       #    #         #     #     |\n");
+	printf("\t\t\t%*s", 20, " "); printf("|    #     #     #     #     #         #     #     |\n");
+	printf("\t\t\t%*s", 20, " "); printf("|    #     #      #   #      ###       ######      |\n");
+	printf("\t\t\t%*s", 20, " "); printf("|    #     #       # #       #         #   #       |\n");
+	printf("\t\t\t%*s", 20, " "); printf("|     #####         #        #######   #    #      |\n");
+	printf("\t\t\t%*s", 20, " "); printf("----------------------------------------------------\n");
+	printf("\t\t\t%*s", 20, " "); printf("                    Press Enter");
+	_getch();
+	gameReset();
+}
 
+void GameSystem::gameReset()
+{
+	_level.clear();
 }

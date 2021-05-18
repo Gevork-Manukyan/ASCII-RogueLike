@@ -28,5 +28,6 @@ private:
 	void printPauseMenu();
 	void levelComplete();
 	void gameOver();
+	void gameReset();
 };
 

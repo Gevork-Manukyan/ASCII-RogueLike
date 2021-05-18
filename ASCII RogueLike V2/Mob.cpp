@@ -11,6 +11,9 @@ Mob::Mob(char symbol, int x, int y)
 	case 'S':
 		createSnake(x, y);
 		break;
+	case 'O':
+		createOgre(x, y);
+		break;
 	default:
 		_name = "NULL";
 		 _health = -1;
@@ -57,4 +60,15 @@ void Mob::createSnake(int x, int y)
 	setLocation(x, y);
 	_symbol = 'S';
 	_experienceValue = 3;
-}//end function
+}
+
+void Mob::createOgre(int x, int y)
+{
+	_name = "Ogre";
+	_health = 10;
+	_attack = 5;
+	_defense = 2;
+	setLocation(x, y);
+	_symbol = 'O';
+	_experienceValue = 7;
+}

@@ -39,5 +39,6 @@ private:
 	int _experienceValue;
 
 	void createSnake(int x, int y);
+	void createOgre(int x, int y);
 };
 
