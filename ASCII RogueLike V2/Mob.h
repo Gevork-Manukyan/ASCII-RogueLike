@@ -13,6 +13,7 @@ public:
 	int getY() { return _y; }
 	void getLocation(int& x, int& y) { x = _x; y = _y; }
 	char getSymbol() { return _symbol; }
+	int getID() { return _ID; }
 
 	//Setters
 	void setLocation(int x, int y) { _x = x; _y = y; }
@@ -37,8 +38,10 @@ private:
 	char _symbol;
 	//Exp worth
 	int _experienceValue;
+	//Mob's unique ID value
+	int _ID;
 
-	void createSnake(int x, int y);
-	void createOgre(int x, int y);
+	void createSnake(int x, int y, int ID);
+	void createOgre(int x, int y, int ID);
 };
 

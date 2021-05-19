@@ -15,6 +15,34 @@ Level::Level()
 
 /*PUBLIC*/
 
+//returns mob index or -1 if not found
+int Level::getMobIndex(int ID) {
+	
+	for (int i = 0; i < _mobList.size(); i++)
+	{
+		if (_mobList[i].getID() == ID)	
+			return i;
+	}
+
+	return -1;
+}
+
+//returns mob index or -1 if not found
+int Level::getMobIndex(int targetX, int targetY) {
+
+	int x;
+	int y;
+
+	for (int i = 0; i < _mobList.size(); i++)
+	{
+		_mobList[i].getLocation(x, y);
+		if ((x == targetX) && (y == targetY))	//find mob in list
+			return i;
+	}
+
+	return -1;
+}
+
 //read file and store in vector
 void Level::initLevelData()
 {
@@ -404,14 +432,12 @@ char Level::moveToPlayer(Mob& mob)
 		{
 			if (slope == -0)	 //the player is directly to the left
 			{
-				if (checkMove(xMob - 1, yMob))
-					move(mob, 'a');
+				move(mob, 'a');
 				return true;
 			}
 			else if (slope == 0) //the player is directly to the right
 			{
-				if (checkMove(xMob + 1, yMob))
-					move(mob, 'd');
+				move(mob, 'd');
 				return true;
 			}
 		}
@@ -454,6 +480,58 @@ bool Level::checkRadius(char symbol, int radius, int x, int y)
 		}//for end
 	}//for end
 	return false;
+}
+
+//Player battles mob
+void Level::battle(Player& player, Mob& mob) {
+	int attackRoll;
+	int attackResult;
+
+	int attackerX, attackerY;
+	int defenderX, defenderY;
+
+	//Attackers turn
+
+	attackRoll = player.attack();
+	attackResult = mob.takeDamage(attackRoll);
+	if (attackResult != 0)	//check if mob died and do experience
+	{
+		player.addExperience(attackResult);
+
+		//print information & adjust _levelData
+		mob.getLocation(defenderX, defenderY);	
+		setTile(defenderX, defenderY, 'X');
+		std::cout << mob.getName() << " has died!\n";
+		removeMob(mob.getID());
+	}
+	else {
+		std::cout << mob.getName() << " has " << mob.getHealth() << " health left.\n";
+	}
+	_getch();
+}
+
+//Mob battles player
+void Level::battle(Mob& mob, Player& player) {
+	int attackRoll;
+	int attackResult;
+
+	int attackerX, attackerY;
+	int defenderX, defenderY;
+
+	//Attackers turn
+
+	attackRoll = mob.attack();
+	attackResult = player.takeDamage(attackRoll);
+	if (attackResult != 0)	//check if player died 
+	{
+		player.getLocation(defenderX, defenderY);	//print information & adjust _levelData
+		setTile(defenderX, defenderY, 'X');
+		std::cout << player.getName() << " has died!\n";
+	}
+	else {
+		std::cout << player.getName() << " has " << player.getHealth() << " health left.\n";
+	}
+	_getch();
 }
 
 //clears all current level data
@@ -578,7 +656,8 @@ bool Level::removeMob(int mobIndex)
 void Level::processMove(Player& player, int targetX, int targetY)
 {
 	char tile = getTile(targetX, targetY);
-	int x, y = 0;
+	int x = 0;
+	int y = 0;
 
 	switch (tile)
 	{
@@ -618,26 +697,11 @@ void Level::processMove(Player& player, int targetX, int targetY)
 		
 	default:		//player attacking mob
 
-		int mobNumber;
+		int mobNumber = getMobIndex(targetX, targetY);
 
-		//find correct mob
-		unsigned int i = 0;
-		for (; i < _mobList.size(); i++)
-		{
-			_mobList[i].getLocation(x, y);
-			if ((x == targetX) && (y == targetY))	//find mob in list
-			{
-				mobNumber = i;
-				break;
-			}
-		}
-
-		if (i <= _mobList.size())					//check if mob is found
-		{
+		if (mobNumber >= 0)					//check if mob is found
 			battle(_player, _mobList[mobNumber]);	//do battle
-			if (getTile(x, y) == 'X')				//if mob dies, remove from list
-				removeMob(mobNumber);
-		}
+
 		break;
 	}
 }
@@ -647,15 +711,9 @@ void Level::processMove(Mob& mob, int targetX, int targetY)
 {
 	char tile = getTile(targetX, targetY);
 
-	switch (tile)
-	{
-	case '@':		//mob attacking character
+	if (tile == '@') 
 		battle(mob, _player);
-		break;
-
-	default:		
-		break;
-	}//switch end
+	
 }
 
 
@@ -663,7 +721,8 @@ void Level::processMove(Mob& mob, int targetX, int targetY)
 //returns true if player can move there
 bool Level::checkMove(int x, int y)
 {
-	if ((getTile(x, y) == '.') || getTile(x, y) == 'X')
+	char charToCheck = getTile(x, y);
+	if ((charToCheck == '.') || charToCheck == 'X')
 		return true;
 	return false;
 }

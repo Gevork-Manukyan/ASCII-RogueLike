@@ -21,6 +21,9 @@ public:
 	void setLevelFile(std::string levelFile) { _levelFile = levelFile; }
 	template<class T> void setRandomLocation(T &character);
 	void setName(std::string name) { _player.setName(name); }
+	//Getter
+	int getMobIndex(int ID);
+	int getMobIndex(int targetX, int targetY);
 
 	//Functions
 	void initLevelData();
@@ -37,6 +40,8 @@ public:
 		//Processing
 		bool checkRadius(char symbol, int radius, int x, int y);
 
+	void battle(Player& player, Mob& mob);
+	void battle(Mob& mob, Player& player);
 	void clear();
 
 	//Templates
@@ -290,54 +295,4 @@ template <class T> bool Level::moveLeft(T& character)
 	}//end if
 
 	return false;
-}
-
-
-//do battle between two entities
-template<class T, class U> void Level::battle(T& attacking, U& defending)
-{
-
-	int attackRoll;
-	int attackResult;
-
-	int attackerX, attackerY;
-	int defenderX, defenderY;
-
-	//Attackers turn
-
-	attackRoll = attacking.attack();
-	attackResult = defending.takeDamage(attackRoll);
-	if (attackResult != 0)	//check if defender died and do experience
-	{
-		if (attacking.getSymbol() == '@')		//if player, add exp
-			attacking.addExperience(attackResult);
-
-		defending.getLocation(defenderX, defenderY);	//print information/adjust _levelData
-		setTile(defenderX, defenderY, 'X');
-		std::cout << defending.getName() << " has died!\n";
-		_getch();
-	}
-	else {
-		std::cout << defending.getName() << " has " << defending.getHealth() << " health left.\n";
-	}
-
-
-	//Defenders turn
-
-	attackRoll = defending.attack();
-	attackResult = attacking.takeDamage(attackRoll);
-	if (attackResult != 0)	//check if attacker died and do experience
-	{
-		if (defending.getSymbol() == '@')		//if player, add exp
-			defending.addExperience(attackResult);
-
-		attacking.getLocation(attackerX, attackerY);	//print information/adjust _levelData
-		setTile(attackerX, attackerY, 'X');
-		std::cout << attacking.getName() << " has died!\n";
-		_getch();
-	}
-	else {
-		std::cout << attacking.getName() << " has " << attacking.getHealth() << " health left.\n";
-		_getch();
-	}
 }

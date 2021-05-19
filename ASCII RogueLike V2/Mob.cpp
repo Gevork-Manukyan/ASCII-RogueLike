@@ -6,13 +6,17 @@
 
 Mob::Mob(char symbol, int x, int y)
 {
+	static int mobIDCount = 0;
+
 	switch (symbol)
 	{
 	case 'S':
-		createSnake(x, y);
+		createSnake(x, y, mobIDCount);
+		mobIDCount++;
 		break;
 	case 'O':
-		createOgre(x, y);
+		createOgre(x, y, mobIDCount);
+		mobIDCount++;
 		break;
 	default:
 		_name = "NULL";
@@ -23,6 +27,7 @@ Mob::Mob(char symbol, int x, int y)
 		 _y = -1;
 		 _symbol = ' ';
 		 _experienceValue = -999;
+		 _ID = -999;
 		break;
 	}//end switch
 }
@@ -51,7 +56,7 @@ int Mob::takeDamage(int attack)
 
 /*PRIVATE*/
 
-void Mob::createSnake(int x, int y)
+void Mob::createSnake(int x, int y, int ID)
 {
 	_name = "Snake";
 	_health = 5;
@@ -60,9 +65,10 @@ void Mob::createSnake(int x, int y)
 	setLocation(x, y);
 	_symbol = 'S';
 	_experienceValue = 3;
+	_ID = ID;
 }
 
-void Mob::createOgre(int x, int y)
+void Mob::createOgre(int x, int y, int ID)
 {
 	_name = "Ogre";
 	_health = 10;
@@ -71,4 +77,5 @@ void Mob::createOgre(int x, int y)
 	setLocation(x, y);
 	_symbol = 'O';
 	_experienceValue = 7;
+	_ID = ID;
 }
